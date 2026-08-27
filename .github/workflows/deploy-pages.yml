@@ -1,0 +1,40 @@
+name: Deploy hotpot game to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download game bundle
+        run: |
+          curl --fail --location --retry 3 "https://hotpot-game-experience.eldoradian.chatgpt.site/hotpot-game-v22-65-pages.tar.gz.part-00" --output part-00
+          curl --fail --location --retry 3 "https://hotpot-game-experience.eldoradian.chatgpt.site/hotpot-game-v22-65-pages.tar.gz.part-01" --output part-01
+          cat part-00 part-01 > hotpot-game.tar.gz
+          mkdir site
+          tar -xzf hotpot-game.tar.gz -C site
+          touch site/.nojekyll
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
