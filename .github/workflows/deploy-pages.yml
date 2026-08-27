@@ -23,8 +23,8 @@ jobs:
     steps:
       - name: Download game bundle
         run: |
-          curl --fail --location --retry 3 "https://hotpot-game-experience.eldoradian.chatgpt.site/hotpot-game-v22-65-pages.tar.gz.part-00" --output part-00
-          curl --fail --location --retry 3 "https://hotpot-game-experience.eldoradian.chatgpt.site/hotpot-game-v22-65-pages.tar.gz.part-01" --output part-01
+          curl --fail --location --retry 3 "https://hotpot-game-experience.eldoradian.chatgpt.site/hotpot-game-v22-65-pages.tar.gz.part-00?v=22-66" --output part-00
+          curl --fail --location --retry 3 "https://hotpot-game-experience.eldoradian.chatgpt.site/hotpot-game-v22-65-pages.tar.gz.part-01?v=22-66" --output part-01
           cat part-00 part-01 > hotpot-game.tar.gz
           mkdir site
           tar -xzf hotpot-game.tar.gz -C site
