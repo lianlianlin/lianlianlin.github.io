@@ -21,12 +21,8 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Use GitHub Actions as Pages source
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh api --method PUT "repos/${GITHUB_REPOSITORY}/pages" -f build_type=workflow
-          sleep 25
+      - name: Wait for branch Pages build
+        run: sleep 35
       - name: Download game bundle
         run: |
           curl --fail --location --retry 3 "https://hotpot-game-experience.eldoradian.chatgpt.site/hotpot-game-v22-65-pages.tar.gz.part-00?v=22-66" --output part-00
